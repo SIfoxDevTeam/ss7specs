@@ -1,0 +1,58 @@
+TR {joint-iso-itu-t(2) country(16) ca(124) mti(113594) tcap(10) modules(0) itu-t(0) tr(0) version1(1)}
+DEFINITIONS IMPLICIT TAGS ::=
+BEGIN
+
+IMPORTS
+  Abort, DialoguePortion, OrigTransactionID, DestTransactionID
+		FROM TCAPMessages {itu-t recommendation q 773 modules(2) messages(1) version3(3)};
+
+-- The Transaction sub-layer ignores the content of the ComponentPortion
+-- so we have redefined these Types without parameterization and defined
+-- ComponentPortion as an OCTET STRING so that it can be passed to the
+-- Component sub-layer for decoding there
+
+TCMessage ::= CHOICE {
+  unidirectional  [APPLICATION 1] Unidirectional,
+  begin           [APPLICATION 2] Begin,
+  end             [APPLICATION 4] End,
+  continue        [APPLICATION 5] Continue,
+  abort           [APPLICATION 7] Abort,
+  ...
+}
+
+Unidirectional ::= SEQUENCE {
+  dialoguePortion  DialoguePortion OPTIONAL,
+  components       ComponentPortion
+}
+
+Begin ::= SEQUENCE {
+  otid             OrigTransactionID,
+  dialoguePortion  DialoguePortion OPTIONAL,
+  components       ComponentPortion OPTIONAL
+}
+
+End ::= SEQUENCE {
+  dtid             DestTransactionID,
+  dialoguePortion  DialoguePortion OPTIONAL,
+  components       ComponentPortion OPTIONAL
+}
+
+Continue ::= SEQUENCE {
+  otid             OrigTransactionID,
+  dtid             DestTransactionID,
+  dialoguePortion  DialoguePortion OPTIONAL,
+  components       ComponentPortion OPTIONAL
+}
+
+-- used to derive otid/dtid from unknown message type
+Unknown ::= SEQUENCE {
+  otid             OrigTransactionID OPTIONAL,
+  dtid             DestTransactionID OPTIONAL,
+  dialoguePortion  DialoguePortion OPTIONAL,
+  components       ComponentPortion OPTIONAL
+}
+
+-- leave this portion undecoded
+ComponentPortion ::= TYPE-IDENTIFIER.&Type
+
+END

@@ -1,0 +1,5 @@
+{application, ss7specs, [
+    {description, "A set of GSM ASN.1 specs"},
+    {vsn, "1.0.0"},
+    {applications, [kernel, stdlib]}
+]}.

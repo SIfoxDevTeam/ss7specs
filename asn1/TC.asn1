@@ -1,0 +1,101 @@
+-- This is a manually-crafted simplified TCAP ASN.1 syntax, created
+-- for the signerl project by Harald Welte <laforge@gnumonks.org>
+--
+-- The "problem" with the real TCAP spec is its use of templates,
+-- which is nice if you want to create a fully integrated TCAP + MAP
+-- decoder, but in this case we simply want to parse all the common
+-- parts and ignore the application-specific parameters/rsults of the
+-- respective operation.
+
+TC
+
+DEFINITIONS IMPLICIT TAGS
+
+::=
+
+BEGIN
+
+Components ::= [APPLICATION 12] SEQUENCE SIZE (1..MAX) OF Component
+
+Component ::= CHOICE {
+	invoke		[1] Invoke,
+	returnResult	[2] ReturnResult,
+	returnError	[3] ReturnError,
+	reject		[4] Reject,
+	returnResultNotLast [7] ReturnResult
+}
+
+Invoke ::= SEQUENCE {
+	invokeId InvokeId,
+	linkedId CHOICE {
+		present	[0] IMPLICIT present < InvokeId,
+		absent	[1] IMPLICIT NULL
+	} OPTIONAL,
+	opcode Code,
+	argument Param
+}
+
+ReturnResult ::= SEQUENCE {
+	invokeId InvokeId,
+	result SEQUENCE {
+		opcode Code,
+		result Param OPTIONAL
+	}
+}
+
+ReturnError ::= SEQUENCE {
+	invokeId InvokeId,
+	errcode Code,
+	parameter Param OPTIONAL
+}
+
+Reject ::= SEQUENCE {
+	invokeId InvokeId,
+	problem CHOICE {
+		general		[0]	GeneralProblem,
+		invoke		[1]	InvokeProblem,
+		returnResult	[2]	ReturnResultProblem,
+		returnError	[3]	ReturnErrorProblem
+	}
+}
+
+GeneralProblem ::= INTEGER {
+  unrecognizedPDU(0), mistypedPDU(1), badlyStructuredPDU(2)}
+
+InvokeProblem ::= INTEGER {
+  duplicateInvocation(0), unrecognizedOperation(1), mistypedArgument(2),
+  resourceLimitation(3), releaseInProgress(4), unrecognizedLinkedId(5),
+  linkedResponseUnexpected(6), unexpectedLinkedOperation(7)}
+
+ReturnResultProblem ::= INTEGER {
+  unrecognizedInvocation(0), resultResponseUnexpected(1), mistypedResult(2)
+}
+
+ReturnErrorProblem ::= INTEGER {
+  unrecognizedInvocation(0), errorResponseUnexpected(1), unrecognizedError(2),
+  unexpectedError(3), mistypedParameter(4)}
+
+RejectProblem ::= INTEGER {
+  general-unrecognizedPDU(0), general-mistypedPDU(1),
+  general-badlyStructuredPDU(2), invoke-duplicateInvocation(10),
+  invoke-unrecognizedOperation(11), invoke-mistypedArgument(12),
+  invoke-resourceLimitation(13), invoke-releaseInProgress(14),
+  invoke-unrecognizedLinkedId(15), invoke-linkedResponseUnexpected(16),
+  invoke-unexpectedLinkedOperation(17),
+  returnResult-unrecognizedInvocation(20),
+  returnResult-resultResponseUnexpected(21), returnResult-mistypedResult(22),
+  returnError-unrecognizedInvocation(30),
+  returnError-errorResponseUnexpected(31), returnError-unrecognizedError(32),
+  returnError-unexpectedError(33), returnError-mistypedParameter(34)}
+
+InvokeId ::= CHOICE {present  INTEGER,
+                     absent   NULL
+}
+
+Code ::= CHOICE {local   INTEGER,
+                 global  OBJECT IDENTIFIER
+}
+
+Param ::= ANY
+
+END
