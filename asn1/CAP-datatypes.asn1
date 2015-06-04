@@ -452,7 +452,7 @@ CAI-Gsm0224 ::= SEQUENCE
 -- locally refd 4 times, import refd 0 times
 -- See 3GPP TS 29.078
 -- and 3GPP TS 24.008, section 10.5.4.7
-CalledPartyBCDNumber ::= ISDN-AddressString
+CalledPartyBCDNumber ::= OCTET STRING (SIZE (cAPSpecificBoundSetminCalledPartyBCDNumberLength..cAPSpecificBoundSetmaxCalledPartyBCDNumberLength))
 -- Indicates the Called Party Number, including service selection information.
 -- Refer to 3GPP TS 24.008 [9] for encoding.
 -- This data type carries only the 'type of number', 'numbering plan
