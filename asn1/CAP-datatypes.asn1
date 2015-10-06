@@ -569,7 +569,7 @@ CAMEL-FCIBillingChargingCharacteristics ::=  CHOICE
     fCIBCCCAMELsequence1 [0] SEQUENCE
     {
         freeFormatData       [0] FreeFormatData,
-        partyToCharge4        [1] SendingSideID        DEFAULT '01'H,
+        partyToCharge4        [1] SendingSideID,
         appendFreeFormatData [2] AppendFreeFormatData DEFAULT overwrite
     }
 }
@@ -2486,7 +2486,7 @@ ExtensionField ::=   SEQUENCE
 ApplyChargingArg ::= SEQUENCE
 {
     aChBillingChargingCharacteristics	[0] AChBillingChargingCharacteristics,
-    partyToCharge1			            [2] SendingSideID DEFAULT '01'H,
+    partyToCharge1			            [2] SendingSideID,
     extensions							[3] ExtensionsArray OPTIONAL,
 	aChChargingAddress					[50] AChChargingAddress,
 	...
