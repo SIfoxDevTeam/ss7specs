@@ -3,6 +3,6 @@ case erlang:system_info(otp_release) of
         lists:keyreplace(asn1_opts, 1, CONFIG, {asn1_opts, [compact_bit_string, optimize, nif, ber_bin]});
     [$R, $1, $6 | _Rest] -> %% R16
         CONFIG;
-    [$1, $7 | _Rest] -> %% R17
+    [$1, $N | _Rest] when N >= 7 -> %% >= 17
         lists:keyreplace(asn1_opts, 1, CONFIG, {asn1_opts, [legacy_erlang_types, ber]})
 end.
