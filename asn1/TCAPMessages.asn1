@@ -66,11 +66,11 @@ Reason ::= CHOICE{
 -- APDU, or by the TC-User in which case it could be either an ABRT APDU or data in some user-defined
 -- abstract syntax.
 
---DialoguePortion ::= [APPLICATION 11] EXPLICIT EXTERNAL
+DialoguePortion ::= [APPLICATION 11] EXPLICIT EXTERNAL
 
 -- WS adaptation
-DialoguePortion ::= [APPLICATION  11] IMPLICIT DialogueOC
-DialogueOC ::= OCTET STRING						
+-- DialoguePortion ::= [APPLICATION  11] IMPLICIT DialogueOC
+-- DialogueOC ::= OCTET STRING
 
 -- The dialogue portion carries the dialogue control PDUs as value of the external data type.
 -- The direct reference should be set to { ccitt recommendation q 773 as (1) dialogue-as (1) version (1) }
