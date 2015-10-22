@@ -260,7 +260,8 @@ AccessPointName ::= OCTET STRING (SIZE (cAPSpecificBoundSetminAccessPointNameLen
 
 -- AChBillingChargingCharacteristics notes: not recursive, exported,
 -- locally refd 2 times, import refd 0 times
-AChBillingChargingCharacteristics ::= CHOICE
+/*
+ApplyChargingArg ::= CHOICE
 {
     actimeDurationCharging [0]   SEQUENCE
     {
@@ -271,6 +272,21 @@ AChBillingChargingCharacteristics ::= CHOICE
         extensions                [4] ExtensionsArray       OPTIONAL
     }
 }
+*/
+ApplyChargingArg ::= SEQUENCE
+{
+    aChBillingChargingCharacteristics	[0] AChBillingChargingCharacteristics,
+    partyToCharge1			            [2] SendingSideID DEFAULT '01'H,
+    extensions							[3] ExtensionsArray OPTIONAL,
+    aChChargingAddress					[50] AChChargingAddress OPTIONAL,
+	...
+}
+
+AChBillingChargingCharacteristics ::= OCTET STRING (SIZE (cAPSpecificBoundSetminAChBillingChargingLength .. cAPSpecificBoundSetmaxAChBillingChargingLength))
+    (CONTAINING CAMEL-AChBillingChargingCharacteristics)
+
+-- AChBillingChargingCharacteristics  ::= OCTET STRING (SIZE (cAPSpecificBoundSetminAChBillingChargingLength .. cAPSpecificBoundSetmaxAChBillingChargingLength))
+--    (CONTAINING CAMEL-AChBillingChargingCharacteristics)
 
 AChChargingAddress ::= CHOICE {
 	legID				[2] LegID,
@@ -289,7 +305,7 @@ AlertingPattern ::= OCTET STRING (SIZE(3))
 -- The encoding of the last octet of this parameter is as defined in 3GPP TS 29.002 [11].
 
 
--- This one Commented out by Javier Acuña (javier.acuna@sixbell.cl)
+-- This one Commented out by Javier Acuï¿½a (javier.acuna@sixbell.cl)
 -- Because I added a new Errortypes section at the end.
 
 --CancelFailedPARAM ::= SEQUENCE 
@@ -495,7 +511,9 @@ CallingPartyNumber ::=
 
 -- CallResult notes: not recursive, exported,
 -- locally refd 2 times, import refd 0 times
-CallResult ::=  CAMEL-CallResult
+-- CallResult ::=  CAMEL-CallResult
+CallResult ::= OCTET STRING (SIZE(cAPSpecificBoundSetminCallResultLength .. cAPSpecificBoundSetmaxCallResultLength))
+	(CONTAINING CAMEL-CallResult)
 
 --OCTET STRING (SIZE (cAPSpecificBoundSetminCallResultLength..cAPSpecificBoundSetmaxCallResultLength))
 -- shall be the result of the BER-encoded value of type
@@ -524,7 +542,7 @@ CAMEL-AChBillingChargingCharacteristics ::=  CHOICE
         maxCallPeriodDuration		[0] INTEGER (1..864000),
         releaseIfdurationExceeded	[1] BOOLEAN               DEFAULT FALSE,
         tariffSwitchInterval		[2] INTEGER (1..86400)    OPTIONAL,
-		audibleIndicator			[3] AudibleIndicator,	
+		audibleIndicator			[3] AudibleIndicator DEFAULT istone: FALSE,
         extensions					[4] ExtensionsArray       OPTIONAL,
         ...
     }
@@ -544,12 +562,25 @@ CAMEL-AChBillingChargingCharacteristics ::=  CHOICE
 --		...
 --		}
 --	}
-
+/*
 CAMEL-CallResult ::=  CHOICE
 {
   timeDurationChargingResult [0] TimeDurationChargingResult,
   void [99] NULL
 }
+*/
+
+CAMEL-CallResult ::= CHOICE {
+	timeDurationChargingResult			[0] SEQUENCE {
+		partyToCharge						[0] ReceivingSideID,
+		timeInformation						[1] TimeInformation,
+		legActive							[2] BOOLEAN DEFAULT TRUE,
+		callLegReleasedAtTcpExpiry			[3] NULL				OPTIONAL,
+		extensions							[4] ExtensionsArray		OPTIONAL,
+		aChChargingAddress					[5] AChChargingAddress	DEFAULT legID:receivingSideID:leg1,
+		...
+		}
+	}
 
 TimeDurationChargingResult ::= SEQUENCE {
   partyToCharge			[0] ReceivingSideID,
@@ -569,7 +600,7 @@ CAMEL-FCIBillingChargingCharacteristics ::=  CHOICE
     fCIBCCCAMELsequence1 [0] SEQUENCE
     {
         freeFormatData       [0] FreeFormatData,
-        partyToCharge4        [1] SendingSideID,
+        partyToCharge4        [1] SendingSideID        DEFAULT '01'H,
         appendFreeFormatData [2] AppendFreeFormatData DEFAULT overwrite
     }
 }
@@ -2184,9 +2215,10 @@ CallresultoctetPDU ::= OCTET STRING (SIZE (cAPSpecificBoundSetminCallResultLengt
 --	)
 	 
 -- CallResult type
-ApplyChargingReportArg ::= SEQUENCE {
-		callresultOctet CAMEL-CallResult
-		}
+-- ApplyChargingReportArg ::= SEQUENCE {
+--		callresultOctet CAMEL-CallResult
+--		}
+ApplyChargingReportArg ::= CallResult
 
 -- CancelArg notes: not recursive, exported,
 -- locally refd 1 times, import refd 0 times
@@ -2480,17 +2512,18 @@ ExtensionField ::=   SEQUENCE
 }
 
 
-
+/*
 -- ApplyChargingArg notes: not recursive, exported,
 -- locally refd 1 times, import refd 0 times
 ApplyChargingArg ::= SEQUENCE
 {
     aChBillingChargingCharacteristics	[0] AChBillingChargingCharacteristics,
-    partyToCharge1			            [2] SendingSideID,
+    partyToCharge1			            [2] SendingSideID DEFAULT '01'H,
     extensions							[3] ExtensionsArray OPTIONAL,
 	aChChargingAddress					[50] AChChargingAddress,
 	...
 }
+*/
 
 ExtensionsArray ::= SEQUENCE SIZE (1..cAPSpecificBoundSetnumOfExtensions) OF ExtensionField
 
