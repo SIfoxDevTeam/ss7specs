@@ -6,3 +6,4 @@ include
 src/*.erl
 src/*.asn1db
 _build
+asngen
