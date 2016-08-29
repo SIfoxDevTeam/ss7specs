@@ -160,7 +160,7 @@ SM-RP-OA ::= CHOICE {
 ReportSM-DeliveryStatusArg ::= SEQUENCE {
 	msisdn		ISDN-AddressString,
 	serviceCentreAddress	AddressString,
-	sm-DeliveryOutcome	SM-DeliveryOutcome,
+	sm-DeliveryOutcome	SM-DeliveryOutcome OPTIONAL,
 	absentSubscriberDiagnosticSM	[0] AbsentSubscriberDiagnosticSM
 							OPTIONAL,
 	extensionContainer	[1] ExtensionContainer	OPTIONAL,
