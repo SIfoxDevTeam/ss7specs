@@ -961,95 +961,94 @@ ErrorTreatment ::= ENUMERATED
 
 -- EventSpecificInformationBCSM notes: not recursive, exported,
 -- locally refd 2 times, import refd 0 times
-EventSpecificInformationBCSM ::= CHOICE
-{
-        routeSelectFailureSpecificInfo          [2] SEQUENCE {
-                failureCause                                            [0] Cause                                                               OPTIONAL,
-                ...
-                },
-        oCalledPartyBusySpecificInfo            [3] SEQUENCE {
-                busyCause                                                       [0] Cause                                                               OPTIONAL,
-                ...
-                },
-        oNoAnswerSpecificInfo                           [4] SEQUENCE {
-                -- no specific info defined --
-                ...
-                },
-        oAnswerSpecificInfo                                     [5] SEQUENCE {
-                destinationAddress                                      [50] CalledPartyNumber                                  OPTIONAL,
-                or-Call                                                         [51] NULL                                                               OPTIONAL,
-                forwardedCall                                           [52] NULL                                                               OPTIONAL,
-                chargeIndicator                                         [53] ChargeIndicator                                    OPTIONAL,
-                ext-basicServiceCode                            [54] Ext-BasicServiceCode                               OPTIONAL,
-                ext-basicServiceCode2                           [55] Ext-BasicServiceCode                               OPTIONAL,
-                ...
-                },
-        oMidCallSpecificInfo                            [6] SEQUENCE {
-                omidCallEvents                                          [1] CHOICE {
-                        dTMFDigitsCompleted                                     [3] Digits,
-                        dTMFDigitsTimeOut                                       [4] Digits
-                        }                                                                                                                                               OPTIONAL,
-                ...
-                },
-        oDisconnectSpecificInfo                         [7] SEQUENCE {
-                releaseCause                                            [0] Cause                                                               OPTIONAL,
-                ...
-                },
-        tBusySpecificInfo                                       [8] SEQUENCE {
-                busyCause                                                       [0] Cause                                                               OPTIONAL,
-                callForwarded                                           [50] NULL                                                               OPTIONAL,
-                routeNotPermitted                                       [51] NULL                                                               OPTIONAL,
-                forwardingDestinationNumber                     [52] CalledPartyNumber                                  OPTIONAL,
-                ...
-                },
-        tNoAnswerSpecificInfo                           [9] SEQUENCE {
-                callForwarded                                           [50] NULL                                                               OPTIONAL,
-                forwardingDestinationNumber                     [52] CalledPartyNumber                                  OPTIONAL,
-                ...
-                },
-        tAnswerSpecificInfo                                     [10] SEQUENCE {
-                destinationAddress                                      [50] CalledPartyNumber                                  OPTIONAL,
-                or-Call                                                         [51] NULL                                                               OPTIONAL,
-                forwardedCall                                           [52] NULL                                                               OPTIONAL,
-                chargeIndicator                                         [53] ChargeIndicator                                    OPTIONAL,
-                ext-basicServiceCode                            [54] Ext-BasicServiceCode                               OPTIONAL,
-                ext-basicServiceCode2                           [55] Ext-BasicServiceCode                               OPTIONAL,
-                ...
-                },
-        tMidCallSpecificInfo                            [11] SEQUENCE {
-                tmidCallEvents                                          [1] CHOICE {
-                        dTMFDigitsCompleted                                     [3] Digits,
-                        dTMFDigitsTimeOut                                       [4] Digits
-                        }                                                                                                                                               OPTIONAL,
-                ...
-                },
-        tDisconnectSpecificInfo                         [12] SEQUENCE {
-                releaseCause                                            [0] Cause                                                               OPTIONAL,
-                ...
-                },
-        oTermSeizedSpecificInfo                         [13] SEQUENCE {
-                locationInformation                                     [50] LocationInformation                                OPTIONAL,
-                ...
-                },
-        callAcceptedSpecificInfo                        [20] SEQUENCE {
-                locationInformation                                     [50] LocationInformation                                OPTIONAL,
-                ...
-                },
-        oAbandonSpecificInfo                            [21] SEQUENCE {
-                routeNotPermitted                                       [50] NULL                                                               OPTIONAL,
-                ...
-                },
-        oChangeOfPositionSpecificInfo           [50] SEQUENCE {
-                locationInformation                                     [50] LocationInformation                                OPTIONAL,
-                ...,
-        metDPCriteriaList                   [51] MetDPCriteriaList                                      OPTIONAL
-                },
-        tChangeOfPositionSpecificInfo           [51] SEQUENCE {
-                locationInformation                                     [50] LocationInformation                                OPTIONAL,
-                ...,
-        metDPCriteriaList                   [51] MetDPCriteriaList                                      OPTIONAL
-                },
-        dpSpecificInfoAlt                                   [52] DpSpecificInfoAlt
+EventSpecificInformationBCSM ::= CHOICE {
+    routeSelectFailureSpecificInfo [2] SEQUENCE {
+        failureCause [0] Cause OPTIONAL,
+        ...
+    },
+    oCalledPartyBusySpecificInfo   [3] SEQUENCE {
+        busyCause [0] Cause OPTIONAL,
+        ...
+    },
+    oNoAnswerSpecificInfo          [4] SEQUENCE {
+        -- no specific info defined --
+        ...
+    },
+    oAnswerSpecificInfo            [5] SEQUENCE {
+        destinationAddress         [50] CalledPartyNumber OPTIONAL,
+        or-Call                    [51] NULL OPTIONAL,
+        forwardedCall              [52] NULL OPTIONAL,
+        chargeIndicator            [53] ChargeIndicator OPTIONAL,
+        ext-basicServiceCode       [54] Ext-BasicServiceCode OPTIONAL,
+        ext-basicServiceCode2      [55] Ext-BasicServiceCode OPTIONAL,
+        ...
+    },
+    oMidCallSpecificInfo           [6] SEQUENCE {
+        omidCallEvents [1] CHOICE {
+            dTMFDigitsCompleted [3] Digits,
+            dTMFDigitsTimeOut   [4] Digits
+        } OPTIONAL,
+        ...
+    },
+    oDisconnectSpecificInfo        [7] SEQUENCE {
+        releaseCause [0] Cause OPTIONAL,
+        ...
+    },
+    tBusySpecificInfo              [8] SEQUENCE {
+        busyCause                   [0] Cause OPTIONAL,
+        callForwarded               [50] NULL OPTIONAL,
+        routeNotPermitted           [51] NULL OPTIONAL,
+        forwardingDestinationNumber [52] CalledPartyNumber OPTIONAL,
+        ...
+    },
+    tNoAnswerSpecificInfo          [9] SEQUENCE {
+        callForwarded               [50] NULL OPTIONAL,
+        forwardingDestinationNumber [52] CalledPartyNumber OPTIONAL,
+        ...
+    },
+    tAnswerSpecificInfo            [10] SEQUENCE {
+        destinationAddress    [50] CalledPartyNumber OPTIONAL,
+        or-Call               [51] NULL OPTIONAL,
+        forwardedCall         [52] NULL OPTIONAL,
+        chargeIndicator       [53] ChargeIndicator OPTIONAL,
+        ext-basicServiceCode  [54] Ext-BasicServiceCode OPTIONAL,
+        ext-basicServiceCode2 [55] Ext-BasicServiceCode OPTIONAL,
+        ...
+    },
+    tMidCallSpecificInfo           [11] SEQUENCE {
+        tmidCallEvents [1] CHOICE {
+            dTMFDigitsCompleted [3] Digits,
+            dTMFDigitsTimeOut   [4] Digits
+        } OPTIONAL,
+        ...
+    },
+    tDisconnectSpecificInfo        [12] SEQUENCE {
+        releaseCause [0] Cause OPTIONAL,
+        ...
+    },
+    oTermSeizedSpecificInfo        [13] SEQUENCE {
+        locationInformation [50] LocationInformation OPTIONAL,
+        ...
+    },
+    callAcceptedSpecificInfo       [20] SEQUENCE {
+        locationInformation [50] LocationInformation OPTIONAL,
+        ...
+    },
+    oAbandonSpecificInfo           [21] SEQUENCE {
+        routeNotPermitted [50] NULL OPTIONAL,
+        ...
+    },
+    oChangeOfPositionSpecificInfo  [50] SEQUENCE {
+        locationInformation [50] LocationInformation OPTIONAL,
+        ...,
+        metDPCriteriaList   [51] MetDPCriteriaList OPTIONAL
+    },
+    tChangeOfPositionSpecificInfo  [51] SEQUENCE {
+        locationInformation [50] LocationInformation OPTIONAL,
+        ...,
+        metDPCriteriaList   [51] MetDPCriteriaList OPTIONAL
+    },
+    dpSpecificInfoAlt       [52] DpSpecificInfoAlt
 }
 
 -- EventSpecificInformationSMS notes: not recursive, exported,
