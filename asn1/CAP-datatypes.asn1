@@ -540,12 +540,18 @@ CAMEL-AChBillingChargingCharacteristics ::=  CHOICE
     timeDurationCharging [0]   SEQUENCE
     {
         maxCallPeriodDuration           [0] INTEGER (1..864000),
-        releaseIfdurationExceeded       [1] BOOLEAN               DEFAULT FALSE,
+        releaseIfdurationExceeded       [1] ReleaseIfDurationExceeded OPTIONAL,
         tariffSwitchInterval            [2] INTEGER (1..86400)    OPTIONAL,
                 audibleIndicator                        [3] AudibleIndicator DEFAULT istone: FALSE,
         extensions                                      [4] ExtensionsArray       OPTIONAL,
         ...
     }
+}
+
+ReleaseIfDurationExceeded ::= SEQUENCE {
+    tone BOOLEAN DEFAULT FALSE,
+    ...,
+    extensions [10] SEQUENCE SIZE(1..10) OF ExtensionField OPTIONAL
 }
 
 -- CAMEL-CallResult notes: not recursive, exported,
