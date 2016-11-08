@@ -113,7 +113,8 @@ Invoke ::=		SEQUENCE {
 				invokeID				InvokeIdType,
 				linkedID				[0] IMPLICIT InvokeIdType OPTIONAL,
 				opCode			OPERATION,
-				parameter	 Parameter OPTIONAL }
+				parameter	 Parameter OPTIONAL,
+				... }
 
 Parameter ::= ANY
  
