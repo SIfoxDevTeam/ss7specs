@@ -2177,6 +2177,37 @@ MiscCallInfo ::= SEQUENCE
     }
 }
 
+EXTENSION ::= CLASS {
+	&ExtensionType,
+	&criticality		CriticalityType DEFAULT ignore,
+	&id	Code}
+
+WITH SYNTAX {
+	EXTENSION-SYNTAX	&ExtensionType
+	CRITICALITY			&criticality
+	IDENTIFIED BY		&id
+}
+
+firstExtension EXTENSION ::= {
+	EXTENSION-SYNTAX	NULL
+	CRITICALITY			ignore
+	IDENTIFIED BY		global : {itu-t(0) identified-organization(4) organisation(0) gsm(1)
+						capextension(2)}
+	}
+-- firstExtension is just an example.
+
+SupportedExtensions EXTENSION ::= {firstExtension, ...
+-- full set of network operator extensions --
+}
+
+ExtensionField ::= SEQUENCE {
+	type								EXTENSION.&id ({SupportedExtensions}),
+										-- shall identify the value of an EXTENSION type
+	criticality							CriticalityType DEFAULT ignore,
+	value								[1] EXTENSION.&ExtensionType ({SupportedExtensions}{@type}),
+	...
+}
+
 -- SupportedExtensionsExtensionType notes: not recursive, exported,
 -- locally refd 1 times, import refd 0 times
 SupportedExtensionsExtensionType ::= CHOICE
@@ -2508,13 +2539,13 @@ SupportedExtensionsid ::= Code
 
 -- ExtensionField notes: not recursive, exported,
 -- locally refd 24 times, import refd 0 times
-ExtensionField ::=   SEQUENCE
-{
-    type        SupportedExtensionsid,
-    criticality CriticalityType      DEFAULT ignore,
-    value [1]   SupportedExtensionsExtensionType,
-    ...
-}
+-- ExtensionField ::=   SEQUENCE
+-- {
+--     type        SupportedExtensionsid,
+--     criticality CriticalityType      DEFAULT ignore,
+--     value [1]   SupportedExtensionsExtensionType,
+--     ...
+-- }
 
 
 /*
