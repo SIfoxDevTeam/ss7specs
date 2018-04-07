@@ -149,7 +149,7 @@ Reject ::=		SEQUENCE {
 					returnResultProblem	[2] IMPLICIT ReturnResultProblem,
 					returnErrorProblem	[3] IMPLICIT ReturnErrorProblem } }
 
-InvokeIdType ::=	INTEGER (-128..127)
+InvokeIdType ::=	INTEGER
 
 
 OPERATION	::=	CHOICE {
