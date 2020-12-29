@@ -354,9 +354,10 @@ ApplicationTimer ::= INTEGER (0..2047)
 -- locally refd 2 times, import refd 0 times
 AssistingSSPIPRoutingAddress ::= Digits
 
-AudibleIndicator ::= CHOICE {
-        istone                                                          BOOLEAN,
-        burstList                                                       [1] BurstList
+AudibleIndicator ::= SEQUENCE {
+        istone                                                          BOOLEAN DEFAULT FALSE,
+        ...,
+        burstList                                                       [1] BurstList OPTIONAL
         }
 
 -- BackwardServiceInteractionInd notes: not recursive, exported,
@@ -540,16 +541,16 @@ CAMEL-AChBillingChargingCharacteristics ::=  CHOICE
     timeDurationCharging [0]   SEQUENCE
     {
         maxCallPeriodDuration           [0] INTEGER (1..864000),
-        releaseIfdurationExceeded       [1] BOOLEAN OPTIONAL,
+        releaseIfdurationExceeded       [1] ReleaseIfDurationExceeded OPTIONAL,
         tariffSwitchInterval            [2] INTEGER (1..86400) OPTIONAL,
-        tone                            [3] BOOLEAN OPTIONAL,
+        warnTone                        [3] AudibleIndicator OPTIONAL,
         extensions                      [4] ExtensionsArray OPTIONAL,
         ...
     }
 }
 
 ReleaseIfDurationExceeded ::= SEQUENCE {
-    tone BOOLEAN DEFAULT FALSE,
+    release BOOLEAN DEFAULT FALSE,
     ...,
     extensions [10] SEQUENCE SIZE(1..10) OF ExtensionField OPTIONAL
 }
