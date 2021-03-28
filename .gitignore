@@ -7,3 +7,4 @@ src/*.erl
 src/*.asn1db
 _build
 asngen
+rebar3.crashdump
